@@ -124,7 +124,7 @@ const Page2 = () => {
         }}
       >
         <Typography variant="h1" component="div" gutterBottom>
-          Products & Services
+          Promotion
         </Typography>
         <Button variant ="contained" onClick ={createOpen}>
           <Typography variant="button" component="div">
@@ -139,7 +139,7 @@ const Page2 = () => {
         aria-describedby  ="alert-dialog-description"
       >
         <DialogTitle>
-          <Typography variant="h2">New Product/Service</Typography>
+          <Typography variant="h2">New Branches</Typography>
         </DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={2}>
@@ -181,7 +181,7 @@ const Page2 = () => {
                 value           ={duration}
               />
             </Grid>
-            <Grid item xs={12} md={12}>
+            {/* <Grid item xs={12} md={12}>
               <FormControl fullWidth>
                 <InputLabel id="provided-location-select">Provided Location</InputLabel>
                 <Select
@@ -199,7 +199,7 @@ const Page2 = () => {
                   <MenuItem value="location 5">Location 5</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
           </Grid>
         </DialogContent>
         <DialogActions>

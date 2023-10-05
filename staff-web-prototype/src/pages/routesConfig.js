@@ -30,6 +30,14 @@ const routesConfig = [
         icon: <BiAlignLeft />,
         url: '/sample/PromotionCreation',
       },
+      {
+        id: 'branches-creation',
+        title: 'Branches Creation',
+        messageId: 'Branches Creation',
+        type: 'item',
+        icon: <BiAlignLeft />,
+        url: '/sample/BranchesCreation',
+      },
     ],
   },
 ];

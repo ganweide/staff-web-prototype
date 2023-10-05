@@ -28,3 +28,20 @@ class CustomerTable(models.Model):
 
     def __str__(self):
         return self.customerId
+    
+class BranchTable(models.Model):
+    name       = models.CharField(max_length=250)
+    phone      = models.CharField(max_length=250)
+    email      = models.CharField(max_length=250)
+    address1   = models.CharField(max_length=250)
+    address2   = models.CharField(max_length=250)
+    address3   = models.CharField(max_length=250, null=True, blank=True)
+    city       = models.CharField(max_length=250)
+    state      = models.CharField(max_length=250)
+    ZIP        = models.CharField(max_length=250)
+    category   = models.CharField(max_length=250)
+    products   = models.CharField(max_length=250)
+    rooms      = models.CharField(max_length=250)
+    created_at = models.DateTimeField("created_at", auto_now_add=True)
+    updated_at = models.DateTimeField("updated_at", auto_now=True)
+    deleted_at = models.DateTimeField("deleted_at", null=True, blank=True)

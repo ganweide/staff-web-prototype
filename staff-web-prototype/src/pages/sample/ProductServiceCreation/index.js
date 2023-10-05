@@ -20,14 +20,9 @@ import {
   TableRow,
   TextField,
   FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   InputLabel,
   Select,
   MenuItem,
-  Divider,
   Grid,
   Box,
   Typography,
@@ -43,12 +38,13 @@ const useStyles = makeStyles(Styles);
 
 const Page2 = () => {
   const classes   = useStyles();
-  const tableHead = ["", "Products/Services", "Duration", "Location"];
+  const tableHead = ["", "Products/Services", "Duration"];
   const [openCreate, setOpenCreate]   = useState(false);
   const [name, setName]                     = useState([]);
   const [category, setCategory]                     = useState([]);
   const [duration, setDuration]                     = useState([]);
-  const [location, setLocation]                     = useState([]);
+  const [startTime, setStartTime]                     = useState([]);
+  const [endTime, setEndTime]                     = useState([]);
   const [bookingDate, setBookingDate]       = useState([]);
   const [bookingTime, setBookingTime]       = useState([]);
   const [switchActivity, setSwitchActivity] = useState(false);
@@ -184,23 +180,28 @@ const Page2 = () => {
               />
             </Grid>
             <Grid item xs={12} md={12}>
-              <FormControl fullWidth>
-                <InputLabel id="provided-location-select">Provided Location</InputLabel>
-                <Select
-                  multiple
-                  labelId="provided-location-select"
-                  id="provided-location-select"
-                  label="Provided Location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                >
-                  <MenuItem value="location 1">Location 1</MenuItem>
-                  <MenuItem value="location 2">Location 2</MenuItem>
-                  <MenuItem value="location 3">Location 3</MenuItem>
-                  <MenuItem value="location 4">Location 4</MenuItem>
-                  <MenuItem value="location 5">Location 5</MenuItem>
-                </Select>
-              </FormControl>
+              <TextField
+                fullWidth
+                InputLabelProps ={{ shrink: true }}
+                onChange        ={(e) => setStartTime(e.target.value)}
+                margin          ="dense"
+                label           ="Starting Time"
+                type            ="time"
+                variant         ="outlined"
+                value           ={startTime}
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField
+                fullWidth
+                InputLabelProps ={{ shrink: true }}
+                onChange        ={(e) => setEndTime(e.target.value)}
+                margin          ="dense"
+                label           ="Ending Time"
+                type            ="time"
+                variant         ="outlined"
+                value           ={endTime}
+              />
             </Grid>
           </Grid>
         </DialogContent>
