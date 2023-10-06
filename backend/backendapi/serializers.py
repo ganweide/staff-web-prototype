@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomerTable, BranchTable
+from .models import CustomerTable, BranchTable, ProductTable
 
 class CustomerTableSerializer(serializers.ModelSerializer):
   class Meta:
@@ -36,6 +36,9 @@ class BranchTableSerializer(serializers.ModelSerializer):
       'name',
       'phone',
       'email',
+      # 'about',
+      # 'opening',
+      # 'rooms',
       'address1',
       'address2',
       'address3',
@@ -44,4 +47,15 @@ class BranchTableSerializer(serializers.ModelSerializer):
       'ZIP',
       'category',
       'products',
+    ]
+
+class ProductTableSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = ProductTable
+    fields = [
+      'id',
+      'name',
+      'category',
+      'duration',
+      'timeSlots',
     ]

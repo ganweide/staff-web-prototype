@@ -33,30 +33,43 @@ import Styles from "./style";
 
 // Global Constants
 const useStyles = makeStyles(Styles);
-const branchURL  = "http://127.0.0.1:8000/api/branch/";
+const branchUrl  = "http://127.0.0.1:8000/api/branch/";
+const productUrl  = "http://127.0.0.1:8000/api/product/";
 
 const Page2 = () => {
   const classes   = useStyles();
   const tableHead = ["", "Name", "Location", "Category", "Products/Services"];
-  const [openCreate, setOpenCreate]         = useState(false);
-  const [branchData, setBranchData]         = useState([]);
-  const [branchName, setBranchName]         = useState([]);
-  const [branchPhone, setBranchPhone]       = useState([]);
-  const [branchEmail, setBranchEmail]       = useState([]);
-  const [branchAddress1, setBranchAddress1] = useState([]);
-  const [branchAddress2, setBranchAddress2] = useState([]);
-  const [branchAddress3, setBranchAddress3] = useState([]);
-  const [branchCity, setBranchCity]         = useState([]);
-  const [branchState, setBranchState]       = useState([]);
-  const [branchZIP, setBranchZIP]           = useState([]);
-  const [category, setCategory]             = useState([]);
-  const [productService, setProductService] = useState([]);
-  const [update, setUpdate]                 = useState([]);
+  const [openCreate, setOpenCreate]               = useState(false);
+  const [branchData, setBranchData]               = useState([]);
+  const [productData, setProductData]             = useState([]);
+  const [branchName, setBranchName]               = useState([]);
+  const [branchPhone, setBranchPhone]             = useState([]);
+  const [branchEmail, setBranchEmail]             = useState([]);
+  const [branchDescription, setBranchDescription] = useState([]);
+  const [branchOpening, setBranchOpening]         = useState([]);
+  const [branchClosing, setBranchClosing]         = useState([]);
+  const [branchRooms, setBranchRooms]             = useState([]);
+  const [branchAddress1, setBranchAddress1]       = useState([]);
+  const [branchAddress2, setBranchAddress2]       = useState([]);
+  const [branchAddress3, setBranchAddress3]       = useState([]);
+  const [branchCity, setBranchCity]               = useState([]);
+  const [branchState, setBranchState]             = useState([]);
+  const [branchZIP, setBranchZIP]                 = useState([]);
+  const [category, setCategory]                   = useState([]);
+  const [productService, setProductService]       = useState([]);
+  const [update, setUpdate]                       = useState([]);
 
   useEffect(() => {
     try {
-      Axios.get(branchURL).then((response) => {
+      Axios.get(branchUrl).then((response) => {
         setBranchData(response.data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      Axios.get(productUrl).then((response) => {
+        setProductData(response.data);
       });
     } catch (error) {
       console.log(error);
@@ -71,25 +84,28 @@ const Page2 = () => {
     setOpenCreate(false);
   }
 
-  const createBranch = async () => {
-    const newBranch = new FormData();
-    newBranch.append("name", branchName);
-    newBranch.append("phone", branchPhone);
-    newBranch.append("email", branchEmail);
-    newBranch.append("address1", branchAddress1);
-    newBranch.append("address2", branchAddress2);
-    newBranch.append("address3", branchAddress3);
-    newBranch.append("city", branchCity);
-    newBranch.append("state", branchState);
-    newBranch.append("ZIP", branchZIP);
-    newBranch.append("category", category);
-    newBranch.append("product", productService);
+  const newBranch = async () => {
+    const productData = new FormData();
+    productData.append("name", branchName);
+    productData.append("phone", branchPhone);
+    productData.append("email", branchEmail);
+    productData.append("about", branchDescription);
+    productData.append("opening", `${branchOpening} - ${branchClosing}`);
+    productData.append("rooms", branchRooms);
+    productData.append("address1", branchAddress1);
+    productData.append("address2", branchAddress2);
+    productData.append("address3", branchAddress3);
+    productData.append("city", branchCity);
+    productData.append("state", branchState);
+    productData.append("ZIP", branchZIP);
+    productData.append("category", category);
+    productData.append("products", productService);
   
     try {
       const response = await Axios({
         method  : "POST",
-        url     : branchURL,
-        data    : newBranch,
+        url     : branchUrl,
+        data    : productData,
         headers : {"Content-Type": "multipart/form-data"},
       });
       setUpdate(response.data)
@@ -131,6 +147,9 @@ const Page2 = () => {
         <DialogContent dividers>
           <Grid container spacing={2}>
             <Grid item xs={12} md={12}>
+              <Typography variant="h3">Branch Informations</Typography>
+            </Grid>
+            <Grid item xs={12} md={12}>
               <TextField
                 fullWidth
                 onChange        ={(e) => setBranchName(e.target.value)}
@@ -162,6 +181,55 @@ const Page2 = () => {
                 variant         ="outlined"
                 value           ={branchEmail}
               />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField
+                fullWidth
+                onChange        ={(e) => setBranchDescription(e.target.value)}
+                margin          ="dense"
+                label           ="Branch Description"
+                type            ="text"
+                variant         ="outlined"
+                value           ={branchDescription}
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField
+                fullWidth
+                InputLabelProps ={{ shrink: true }}
+                onChange        ={(e) => setBranchOpening(e.target.value)}
+                margin          ="dense"
+                label           ="Open"
+                type            ="time"
+                variant         ="outlined"
+                value           ={branchOpening}
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField
+                fullWidth
+                InputLabelProps ={{ shrink: true }}
+                onChange        ={(e) => setBranchClosing(e.target.value)}
+                margin          ="dense"
+                label           ="Close"
+                type            ="time"
+                variant         ="outlined"
+                value           ={branchClosing}
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField
+                fullWidth
+                onChange        ={(e) => setBranchRooms(e.target.value)}
+                margin          ="dense"
+                label           ="Branch rooms available"
+                type            ="text"
+                variant         ="outlined"
+                value           ={branchRooms}
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Typography variant="h3">Branch Location</Typography>
             </Grid>
             <Grid item xs={12} md={12}>
               <TextField
@@ -230,7 +298,7 @@ const Page2 = () => {
               />
             </Grid>
             <Grid item xs={12} md={12}>
-              <FormControl fullWidth>
+              <FormControl fullWidth margin="dense">
                 <InputLabel id="category-select">Category</InputLabel>
                 <Select
                   labelId="category-select"
@@ -246,7 +314,7 @@ const Page2 = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12}>
-              <FormControl fullWidth>
+              <FormControl fullWidth margin="dense">
                 <InputLabel id="provided-products-services-select">Provided Products/Services</InputLabel>
                 <Select
                   multiple
@@ -256,39 +324,21 @@ const Page2 = () => {
                   value={productService}
                   onChange={(e) => setProductService(e.target.value)}
                 >
-                  <MenuItem value="product 1">Product 1</MenuItem>
-                  <MenuItem value="product 2">Product 2</MenuItem>
-                  <MenuItem value="product 3">Product 3</MenuItem>
-                  <MenuItem value="service 1">Service 1</MenuItem>
-                  <MenuItem value="service 2">Service 2</MenuItem>
-                  <MenuItem value="service 3">Service 3</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <FormControl fullWidth>
-                <InputLabel id="provided-products-services-select">Provided Products/Services</InputLabel>
-                <Select
-                  multiple
-                  labelId="provided-products-services-select"
-                  id="provided-products-services-select"
-                  label="Provided Products/Services"
-                  value={productService}
-                  onChange={(e) => setProductService(e.target.value)}
-                >
-                  <MenuItem value="product 1">Product 1</MenuItem>
-                  <MenuItem value="product 2">Product 2</MenuItem>
-                  <MenuItem value="product 3">Product 3</MenuItem>
-                  <MenuItem value="service 1">Service 1</MenuItem>
-                  <MenuItem value="service 2">Service 2</MenuItem>
-                  <MenuItem value="service 3">Service 3</MenuItem>
+                  <MenuItem value="" disabled>
+                    Select product
+                  </MenuItem>
+                  {productData.map((product, index) => (
+                    <MenuItem key={index} value={product.name}>
+                      {product.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={createBranch}>Create</Button>
+          <Button onClick={newBranch}>Create</Button>
         </DialogActions>
       </Dialog>
       <Card>

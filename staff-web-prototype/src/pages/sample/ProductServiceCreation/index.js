@@ -34,47 +34,29 @@ import Styles from "./style";
 // Global Constants
 const useStyles = makeStyles(Styles);
 // const childUrl  = "http://127.0.0.1:8000/api/child/";
-// const activityUrl  = "http://127.0.0.1:8000/api/activity/";
+const productUrl  = "http://127.0.0.1:8000/api/product/";
 
 const Page2 = () => {
   const classes   = useStyles();
-  const tableHead = ["", "Products/Services", "Duration"];
+  const tableHead = ["", "Products/Services", "Category", "Duration"];
+  const timeSlots = ['00:00', '00:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00', '4:30', '5:00', '5:30', '6:00', '6:30', '7:00', '7:30','8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00','12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'];
   const [openCreate, setOpenCreate]   = useState(false);
-  const [name, setName]                     = useState([]);
-  const [category, setCategory]                     = useState([]);
-  const [duration, setDuration]                     = useState([]);
-  const [startTime, setStartTime]                     = useState([]);
-  const [endTime, setEndTime]                     = useState([]);
-  const [bookingDate, setBookingDate]       = useState([]);
-  const [bookingTime, setBookingTime]       = useState([]);
-  const [switchActivity, setSwitchActivity] = useState(false);
-  const [child, setChild]                   = useState([]);
-  const [refreshData, setRefreshData]       = useState([]);
-  const [activity, setActivity]             = useState([]);
-  const [activityType, setActivityType]     = useState("Food");
-  const [student, setStudent]               = useState([]);
-  const [foodType, setFoodType]             = useState([]);
-  const [foodQuantity, setFoodQuantity]     = useState([]);
-  const [mealType, setMealType]             = useState([]);
-  const [mealItems, setMealItems]           = useState([]);
-  const [note, setNote]                     = useState([]);
+  const [name, setName]               = useState([]);
+  const [category, setCategory]       = useState([]);
+  const [duration, setDuration]       = useState([]);
+  const [slots, setSlots]             = useState([]);
+  const [refreshData, setRefreshData] = useState([]);
+  const [productData, setProductData] = useState([]);
 
-  // useEffect(() => {
-  //   try {
-  //     Axios.get(activityUrl).then((response) => {
-  //       setActivity(response.data);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   try {
-  //     Axios.get(childUrl).then((response) => {
-  //       setChild(response.data);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [refreshData]);
+  useEffect(() => {
+    try {
+      Axios.get(productUrl).then((response) => {
+        setProductData(response.data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [refreshData]);
 
   const createOpen = async () => {
     setOpenCreate(true);
@@ -84,30 +66,25 @@ const Page2 = () => {
     setOpenCreate(false);
   }
 
-  const newActivity = async () => {
-    const activityData = new FormData();
-    activityData.append("student", student);
-    activityData.append("activityType", activityType);
-    activityData.append("date", date);
-    activityData.append("time", time);
-    activityData.append("foodType", foodType);
-    activityData.append("foodQuantity", foodQuantity);
-    activityData.append("mealType", mealType);
-    activityData.append("mealItem", mealItems);
-    activityData.append("note", note);
+  const newProduct = async () => {
+    const productData = new FormData();
+    productData.append("name", name);
+    productData.append("category", category);
+    productData.append("duration", duration);
+    productData.append("timeSlots", slots);
   
     try {
       const response = await Axios({
         method  : "POST",
-        url     : activityUrl,
-        data    : activityData,
+        url     : productUrl,
+        data    : productData,
         headers : {"Content-Type": "multipart/form-data"},
       });
       setRefreshData(response.data)
     } catch (error) {
       console.log("error", error);
     }
-    setOpen(false);
+    setOpenCreate(false);
   };
 
   return (
@@ -131,6 +108,7 @@ const Page2 = () => {
         </Button>
       </Box>
       <Dialog
+        fullWidth         ="sm"
         open              ={openCreate}
         onClose           ={createClose}
         aria-labelledby   ="alert-dialog-title"
@@ -180,33 +158,30 @@ const Page2 = () => {
               />
             </Grid>
             <Grid item xs={12} md={12}>
-              <TextField
-                fullWidth
-                InputLabelProps ={{ shrink: true }}
-                onChange        ={(e) => setStartTime(e.target.value)}
-                margin          ="dense"
-                label           ="Starting Time"
-                type            ="time"
-                variant         ="outlined"
-                value           ={startTime}
-              />
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <TextField
-                fullWidth
-                InputLabelProps ={{ shrink: true }}
-                onChange        ={(e) => setEndTime(e.target.value)}
-                margin          ="dense"
-                label           ="Ending Time"
-                type            ="time"
-                variant         ="outlined"
-                value           ={endTime}
-              />
+              <FormControl variant="outlined" fullWidth margin="dense">
+                <InputLabel>Time Slots</InputLabel>
+                <Select
+                  fullWidth
+                  multiple
+                  value={slots}
+                  onChange={(e) => setSlots(e.target.value)}
+                  label="Time Slots"
+                >
+                  <MenuItem value="" disabled>
+                    Select time slots
+                  </MenuItem>
+                  {timeSlots.map((timeSlot, index) => (
+                    <MenuItem key={index} value={timeSlot}>
+                      {timeSlot}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={newActivity}>Create</Button>
+          <Button onClick={newProduct}>Create</Button>
         </DialogActions>
       </Dialog>
       <Card>
@@ -227,14 +202,13 @@ const Page2 = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {activity.map((activityData, index) => {
+            {productData.map((product, index) => {
               return (
-                <TableRow key={activityData.activityId}>
-                  <TableCell style={{textAlign: "center"}}>{index + 1}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.student}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.date}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.time}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.activityType}</TableCell>
+                <TableRow key={product.id}>
+                  <TableCell style={{textAlign: "center"}}>{product.id}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{product.name}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{product.category}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{product.duration}</TableCell>
                 </TableRow>
               )
             })}
