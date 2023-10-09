@@ -12,7 +12,7 @@ const routesConfig = [
         messageId: 'Customer',
         type: 'item',
         icon: <BiAlignLeft />,
-        url: '/sample/CustomerTable',
+        url: '/sample/CustomerTable2',
       },
       {
         id: 'product-service-creation',
@@ -37,6 +37,14 @@ const routesConfig = [
         type: 'item',
         icon: <BiAlignLeft />,
         url: '/sample/BranchesCreation2',
+      },
+      {
+        id: 'appointment-table',
+        title: 'Appointment',
+        messageId: 'Appointment',
+        type: 'item',
+        icon: <BiAlignLeft />,
+        url: '/sample/AppointmentTable',
       },
     ],
   },
