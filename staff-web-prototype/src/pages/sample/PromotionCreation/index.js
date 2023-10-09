@@ -38,45 +38,21 @@ import Styles from "./style";
 
 // Global Constants
 const useStyles = makeStyles(Styles);
-// const childUrl  = "http://127.0.0.1:8000/api/child/";
-// const activityUrl  = "http://127.0.0.1:8000/api/activity/";
 
 const Page2 = () => {
   const classes   = useStyles();
   const tableHead = ["", "Promotion", "Start Date", "End Date", "Category", "Location"];
-  const [openCreate, setOpenCreate]   = useState(false);
-  const [name, setName]                     = useState([]);
-  const [category, setCategory]                     = useState([]);
-  const [duration, setDuration]                     = useState([]);
-  const [location, setLocation]                     = useState([]);
-  const [switchActivity, setSwitchActivity] = useState(false);
-  const [child, setChild]                   = useState([]);
-  const [refreshData, setRefreshData]       = useState([]);
-  const [activity, setActivity]             = useState([]);
-  const [activityType, setActivityType]     = useState("Food");
-  const [student, setStudent]               = useState([]);
-  const [foodType, setFoodType]             = useState([]);
-  const [foodQuantity, setFoodQuantity]     = useState([]);
-  const [mealType, setMealType]             = useState([]);
-  const [mealItems, setMealItems]           = useState([]);
-  const [note, setNote]                     = useState([]);
-
-  // useEffect(() => {
-  //   try {
-  //     Axios.get(activityUrl).then((response) => {
-  //       setActivity(response.data);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   try {
-  //     Axios.get(childUrl).then((response) => {
-  //       setChild(response.data);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [refreshData]);
+  const promotionData = [
+    ["1", "Car Wash, Detail Wash", "09/10/2023", "16/10/2023", "Car", "Test 4"],
+    ["2", "Hair Trimming, Hair Dye", "10/10/2023", "17/10/2023", "Saloon", "Test 1"],
+    ["3", "Thai Massage", "11/10/2023", "18/10/2023", "Massage", "Test 2"],
+  ]
+  const [openCreate, setOpenCreate] = useState(false);
+  const [name, setName]             = useState([]);
+  const [category, setCategory]     = useState([]);
+  const [start, setStart]           = useState([]);
+  const [end, setEnd]               = useState([]);
+  const [branches, setBranches]     = useState([]);
 
   const createOpen = async () => {
     setOpenCreate(true);
@@ -85,32 +61,6 @@ const Page2 = () => {
   const createClose = async () => {
     setOpenCreate(false);
   }
-
-  const newActivity = async () => {
-    const activityData = new FormData();
-    activityData.append("student", student);
-    activityData.append("activityType", activityType);
-    activityData.append("date", date);
-    activityData.append("time", time);
-    activityData.append("foodType", foodType);
-    activityData.append("foodQuantity", foodQuantity);
-    activityData.append("mealType", mealType);
-    activityData.append("mealItem", mealItems);
-    activityData.append("note", note);
-  
-    try {
-      const response = await Axios({
-        method  : "POST",
-        url     : activityUrl,
-        data    : activityData,
-        headers : {"Content-Type": "multipart/form-data"},
-      });
-      setRefreshData(response.data)
-    } catch (error) {
-      console.log("error", error);
-    }
-    setOpen(false);
-  };
 
   return (
     <div>
@@ -139,7 +89,7 @@ const Page2 = () => {
         aria-describedby  ="alert-dialog-description"
       >
         <DialogTitle>
-          <Typography variant="h2">New Branches</Typography>
+          <Typography variant="h2">New Promotion</Typography>
         </DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={2}>
@@ -164,46 +114,61 @@ const Page2 = () => {
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  <MenuItem value="category 1">Category 1</MenuItem>
-                  <MenuItem value="category 2">Category 2</MenuItem>
-                  <MenuItem value="category 3">Category 3</MenuItem>
+                  <MenuItem value="category 1">Saloon</MenuItem>
+                  <MenuItem value="category 2">Massage</MenuItem>
+                  <MenuItem value="category 3">Car</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12}>
+              <Typography variant="h4">Promotion Duration</Typography>
+            </Grid>
+            <Grid item xs={6} md={6}>
               <TextField
                 fullWidth
-                onChange        ={(e) => setDuration(e.target.value)}
+                InputLabelProps ={{ shrink: true }}
+                onChange        ={(e) => setStart(e.target.value)}
                 margin          ="dense"
-                label           ="Duration"
-                type            ="text"
+                label           ="Promotion Start"
+                type            ="date"
                 variant         ="outlined"
-                value           ={duration}
+                value           ={start}
               />
             </Grid>
-            {/* <Grid item xs={12} md={12}>
+            <Grid item xs={6} md={6}>
+              <TextField
+                fullWidth
+                InputLabelProps ={{ shrink: true }}
+                onChange        ={(e) => setEnd(e.target.value)}
+                margin          ="dense"
+                label           ="Promotion End"
+                type            ="date"
+                variant         ="outlined"
+                value           ={end}
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
               <FormControl fullWidth>
-                <InputLabel id="provided-location-select">Provided Location</InputLabel>
+                <InputLabel id="branches-select">Selected Branches</InputLabel>
                 <Select
                   multiple
-                  labelId="provided-location-select"
-                  id="provided-location-select"
-                  label="Provided Location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  labelId="branches-select"
+                  id="branches-select"
+                  label="Selected Branches"
+                  value={branches}
+                  onChange={(e) => setBranches(e.target.value)}
                 >
-                  <MenuItem value="location 1">Location 1</MenuItem>
-                  <MenuItem value="location 2">Location 2</MenuItem>
-                  <MenuItem value="location 3">Location 3</MenuItem>
-                  <MenuItem value="location 4">Location 4</MenuItem>
-                  <MenuItem value="location 5">Location 5</MenuItem>
+                  <MenuItem value="test 1">Test 1</MenuItem>
+                  <MenuItem value="test 2">Test 2</MenuItem>
+                  <MenuItem value="test 3">Test 3</MenuItem>
+                  <MenuItem value="test 4">Test 4</MenuItem>
                 </Select>
               </FormControl>
-            </Grid> */}
+            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={newActivity}>Create</Button>
+          <Button onClick={() => setOpenCreate(false)}>Create</Button>
         </DialogActions>
       </Dialog>
       <Card>
@@ -224,14 +189,15 @@ const Page2 = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {activity.map((activityData, index) => {
+            {promotionData.map((promotion) => {
               return (
-                <TableRow key={activityData.activityId}>
-                  <TableCell style={{textAlign: "center"}}>{index + 1}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.student}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.date}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.time}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{activityData.activityType}</TableCell>
+                <TableRow key={promotion[0]}>
+                  <TableCell style={{textAlign: "center"}}>{promotion[0]}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{promotion[1]}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{promotion[2]}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{promotion[3]}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{promotion[4]}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{promotion[5]}</TableCell>
                 </TableRow>
               )
             })}
