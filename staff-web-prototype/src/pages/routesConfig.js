@@ -20,7 +20,7 @@ const routesConfig = [
         messageId: 'Product/Service Creation',
         type: 'item',
         icon: <BiAlignLeft />,
-        url: '/sample/ProductServiceCreation',
+        url: '/sample/ProductServiceCreation2',
       },
       {
         id: 'promotion-creation',
@@ -36,7 +36,7 @@ const routesConfig = [
         messageId: 'Branches Creation',
         type: 'item',
         icon: <BiAlignLeft />,
-        url: '/sample/BranchesCreation',
+        url: '/sample/BranchesCreation2',
       },
     ],
   },

@@ -2,9 +2,9 @@ import React from 'react';
 import {RoutePermittedRole} from 'shared/constants/AppConst';
 
 const Page1 = React.lazy(() => import('./CustomerTable'));
-const Page2 = React.lazy(() => import('./ProductServiceCreation'));
+const Page2 = React.lazy(() => import('./ProductServiceCreation2'));
 const Page3 = React.lazy(() => import('./PromotionCreation'));
-const Page4 = React.lazy(() => import('./BranchesCreation'));
+const Page4 = React.lazy(() => import('./BranchesCreation2'));
 
 export const samplePagesConfigs = [
   {
@@ -13,7 +13,7 @@ export const samplePagesConfigs = [
     permittedRole: [RoutePermittedRole.Admin, RoutePermittedRole.Teacher],
   },
   {
-    path: '/sample/ProductServiceCreation',
+    path: '/sample/ProductServiceCreation2',
     element: <Page2 />,
   },
   {
@@ -21,7 +21,7 @@ export const samplePagesConfigs = [
     element: <Page3 />,
   },
   {
-    path: '/sample/BranchesCreation',
+    path: '/sample/BranchesCreation2',
     element: <Page4 />,
   },
 ];
