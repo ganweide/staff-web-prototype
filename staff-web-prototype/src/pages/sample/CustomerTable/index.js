@@ -39,7 +39,6 @@ import Styles from "./style";
 // Global Constants
 const useStyles = makeStyles(Styles);
 const customerTableURL  = "http://127.0.0.1:8000/api/customer/";
-// const activityUrl  = "http://127.0.0.1:8000/api/activity/";
 
 const Page2 = () => {
   const classes   = useStyles();

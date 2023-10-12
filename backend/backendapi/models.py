@@ -29,6 +29,40 @@ class CustomerTable(models.Model):
     def __str__(self):
         return self.customerId
     
+class AppointmentTable(models.Model):
+    customerId   = models.CharField(db_index=True, max_length=250)
+    phone        = models.CharField(max_length=250)
+    email        = models.CharField(max_length=250)
+    cardNumber   = models.CharField(max_length=250)
+    birthday     = models.CharField(max_length=250)
+    memberExpiry = models.CharField(max_length=250)
+    rewardsPoint = models.CharField(max_length=250)
+    credit       = models.CharField(max_length=250)
+    discount     = models.CharField(max_length=250)
+    pricingLevel = models.CharField(max_length=250)
+    group        = models.CharField(max_length=250)
+    date         = models.CharField(max_length=250)
+    time         = models.CharField(max_length=250)
+    product      = models.CharField(max_length=250)
+    location     = models.CharField(max_length=250)
+    notes        = models.CharField(max_length=250, null=True, blank=True)
+    created_at   = models.DateTimeField("created_at", auto_now_add=True)
+    updated_at   = models.DateTimeField("updated_at", auto_now=True)
+    deleted_at   = models.DateTimeField("deleted_at", null=True, blank=True)
+
+class VoucherTable(models.Model):
+    customerId   = models.CharField(db_index=True, max_length=250)
+    branchId     = models.CharField(max_length=250)
+    phone        = models.CharField(max_length=250)
+    email        = models.CharField(max_length=250)
+    expiryDate   = models.CharField(max_length=250)
+    product      = models.CharField(max_length=250)
+    notes        = models.CharField(max_length=250, null=True, blank=True)
+    created_at   = models.DateTimeField("created_at", auto_now_add=True)
+    updated_at   = models.DateTimeField("updated_at", auto_now=True)
+    deleted_at   = models.DateTimeField("deleted_at", null=True, blank=True)
+
+    
 class BranchTable(models.Model):
     name       = models.CharField(max_length=250)
     phone      = models.CharField(max_length=250)
@@ -53,6 +87,16 @@ class ProductTable(models.Model):
     category   = models.CharField(max_length=250)
     duration   = models.CharField(max_length=250)
     timeSlots  = models.CharField(max_length=250)
+    created_at = models.DateTimeField("created_at", auto_now_add=True)
+    updated_at = models.DateTimeField("updated_at", auto_now=True)
+    deleted_at = models.DateTimeField("deleted_at", null=True, blank=True)
+
+class PromotionTable(models.Model):
+    name       = models.CharField(max_length=250)
+    category   = models.CharField(max_length=250)
+    startDate  = models.CharField(max_length=250)
+    endDate    = models.CharField(max_length=250)
+    branches   = models.CharField(max_length=250)
     created_at = models.DateTimeField("created_at", auto_now_add=True)
     updated_at = models.DateTimeField("updated_at", auto_now=True)
     deleted_at = models.DateTimeField("deleted_at", null=True, blank=True)

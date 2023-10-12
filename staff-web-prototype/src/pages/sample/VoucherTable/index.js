@@ -22,15 +22,22 @@ import Styles from "./style";
 
 // Global Constants
 const useStyles = makeStyles(Styles);
+const voucherTableUrl  = "http://127.0.0.1:8000/api/voucher/";
 
 const Page2 = () => {
   const classes   = useStyles();
-  const tableHead = ["Customer ID", "First Name", "Phone", "Email", "Member Expiry", "Rewards Point", "Credit"];
-  const customerData = [
-    ["1", "Tester 1", "0123456789", "test1@email.com", "09/10/2024", "100", "100"],
-    ["2", "Tester 2", "0182738492", "test2@email.com", "10/10/2024", "140", "120"],
-    ["3", "Tester 3", "0234829354", "test3@email.com", "11/10/2024", "270", "200"],
-  ];
+  const tableHead = ["Customer ID", "Branch", "Phone", "Email", "Voucher Expiry", "Product"];
+  const [voucherData, setVoucherData] = useState([]);
+
+  useEffect(() => {
+    try {
+      Axios.get(voucherTableUrl).then((response) => {
+        setVoucherData(response.data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <div>
@@ -44,7 +51,7 @@ const Page2 = () => {
         }}
       >
         <Typography variant="h1" component="div" gutterBottom>
-          Customer Registration
+          Voucher Table
         </Typography>
       </Box>
       <Card>
@@ -65,16 +72,15 @@ const Page2 = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customerData.map((customer) => {
+            {voucherData.map((voucher) => {
               return (
-                <TableRow key={customer[0]}>
-                  <TableCell style={{textAlign: "center"}}>{customer[0]}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{customer[1]}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{customer[2]}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{customer[3]}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{customer[4]}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{customer[5]}</TableCell>
-                  <TableCell style={{textAlign: "center"}}>{customer[6]}</TableCell>
+                <TableRow key={voucher.id}>
+                  <TableCell style={{textAlign: "center"}}>{voucher.customerId}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{voucher.branchId}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{voucher.phone}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{voucher.email}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{voucher.expiryDate}</TableCell>
+                  <TableCell style={{textAlign: "center"}}>{voucher.product}</TableCell>
                 </TableRow>
               )
             })}

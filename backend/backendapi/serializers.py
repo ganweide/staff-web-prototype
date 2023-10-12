@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomerTable, BranchTable, ProductTable
+from .models import CustomerTable, BranchTable, ProductTable, VoucherTable
 
 class CustomerTableSerializer(serializers.ModelSerializer):
   class Meta:
@@ -58,4 +58,17 @@ class ProductTableSerializer(serializers.ModelSerializer):
       'category',
       'duration',
       'timeSlots',
+    ]
+
+class VoucherTableSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = VoucherTable
+    fields = [
+      'id',
+      'customerId',
+      'branchId',
+      'phone',
+      'email',
+      'expiryDate',
+      'product',
     ]

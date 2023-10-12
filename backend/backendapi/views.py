@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
-from .models import CustomerTable, BranchTable, ProductTable
-from .serializers import CustomerTableSerializer, BranchTableSerializer, ProductTableSerializer
+from .models import CustomerTable, BranchTable, ProductTable, VoucherTable
+from .serializers import CustomerTableSerializer, BranchTableSerializer, ProductTableSerializer, VoucherTableSerializer
 from rest_framework.response import Response
 
 class CustomerTableView(viewsets.ModelViewSet):
@@ -62,6 +62,27 @@ class ProductTableView(viewsets.ModelViewSet):
 
   def create(self, request):
     serializer = ProductTableSerializer(data=request.data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+class VoucherTableView(viewsets.ModelViewSet):
+  queryset = VoucherTable.objects.all().order_by('-created_at')
+  serializer_class = VoucherTableSerializer
+  #all
+  def list(self, request):
+    queryset = VoucherTable.objects.all().order_by('-created_at')
+    page = self.paginate_queryset(queryset)
+    if page is not None:
+      serializer = VoucherTableSerializer(page, many=True)
+      return self.get_paginated_response(serializer.data)
+
+    serializer = VoucherTableSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+  def create(self, request):
+    serializer = VoucherTableSerializer(data=request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
