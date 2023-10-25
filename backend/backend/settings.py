@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'backendapi',
     'corsheaders',
     'rest_framework',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
